@@ -1,0 +1,27 @@
+<form id="contact_form" role="form" action="{{ path('submit_query') }}" method="post">`
+    <div class="panel-body">
+        <fieldset>
+            <div class="form-group">
+                <label for="name" class="control-label">Name</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Full Name" data-validation-error-msg="Please enter your full name" data-validation="length" data-validation-length="min1">
+            </div>
+            <div class="form-group">
+                <label for="broker" class="control-label">Broker Name</label>
+                <input type="text" class="col-sm-3 form-control" name="broker" id="broker" placeholder="Email Address" data-validation-error-msg="Please enter a valid email address" data-validation="email length" data-validation-length="min1">
+            </div>
+            <div class="form-group">
+                <label for="location" class="control-label">Location</label>
+                <input type="text" class="form-control" name="location" id="location" placeholder="Contact Telephone Number">
+            </div>
+            <div class="form-group">
+                <label for="price" class="control-label">Price</label>
+                <input type="text" class="form-control" name="price" id="price" placeholder="The subject of your query" data-validation-error-msg="Please enter a subject for your query" data-validation="length" data-validation-length="min1">
+            </div>
+            <div class="form-group">
+                <label for="description" class="control-label">Description</label>
+                <textarea class="form-control" name="description" id="description" rows="5" placeholder="Please enter a detailed description of your query" data-validation-error-msg="Please enter your query description" data-validation="length" data-validation-length="min1"></textarea>
+            </div>
+        </fieldset>
+    </div>
+    <div class="panel-footer clearfix text-center"><button type="submit" class="btn btn-default">Submit Query</button></div>
+</form>
