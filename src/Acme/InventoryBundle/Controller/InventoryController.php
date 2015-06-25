@@ -23,6 +23,7 @@ class InventoryController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $inventory = new Inventory();
+        
         $inventoryManager = new InventoryManager($em, $inventory);
         $inventoryListing = $inventoryManager->getInventory();
 
