@@ -22,10 +22,11 @@ class InventoryController extends Controller
     public function inventoryAction(){
 
         $em = $this->getDoctrine()->getManager();
-        $inventoryManager = new InventoryManager($em);
-        $inventory = $inventoryManager->getInventory();
+        $inventory = new Inventory();
+        $inventoryManager = new InventoryManager($em, $inventory);
+        $inventoryListing = $inventoryManager->getInventory();
 
-        return array('inventory'=>$inventory);
+        return array('inventory'=> $inventoryListing);
     }
 
     /**
@@ -38,26 +39,7 @@ class InventoryController extends Controller
      */
     public function inventoryDetailAction(Inventory $inventory){
 
-         return array('inventory'=>$inventory);
-    }
-
-    /**
-     * @Route("/api/inventory/new/")
-     * @Method("POST")
-     */
-    public function newInventoryAction(Request $request){
-
-        $inventory = new Inventory();
-        $inventory->setName("Liberty Village Apartments");
-        $inventory->setBroker("Emod");
-        $inventory->setDescription("Located in downtown Toronto");
-        $inventory->setLocation("Toronto");
-        $inventory->setPrice("20,000.99");
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($inventory);
-        $em->flush();
-        return new Response("I am an API and I created a new inventory for you");
+         return array('inventory'=> $inventory);
     }
 
     /**
@@ -66,23 +48,13 @@ class InventoryController extends Controller
      */
     public function formAction(Request $request)
     {
-        $serializer = $this->get('jms_serializer');
         $data = $request->request->all();
-//        $jsonContent = $serializer->serialize($data, 'json');
-        //$content = json_decode($jsonContent, true);
-// $jsonContent contains {"name":"foo","age":99,"sportsman":false}
-
-        //echo $data['name']; // or return it in a Response
-        $inventory = new Inventory();
-        $inventory->setName($data["name"]);
-        $inventory->setBroker($data['broker']);
-        $inventory->setDescription($data['description']);
-        $inventory->setLocation($data['location']);
-        $inventory->setPrice($data['price']);
-
         $em = $this->getDoctrine()->getManager();
-        $em->persist($inventory);
-        $em->flush();
+        $inventory = new Inventory();
+
+        $createInventory = new InventoryManager($em, $inventory);
+        $createInventory->addInventory($data);
+
         return new Response("I am an API and I created a new inventory for you");
 
     }
