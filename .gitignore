@@ -10,3 +10,7 @@
 /vendor/
 /web/bundles/
 .idea
+<<<<<<< HEAD
+=======
+*/.idea
+>>>>>>> 0433775289a27dc13630df2d9b349b6dfe5b75a6

@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Acme\InventoryBundle\Inventory\InventoryManager;
 
 class InventoryController extends Controller
 {
@@ -20,11 +20,12 @@ class InventoryController extends Controller
      * @View()
      */
     public function inventoryAction(){
-         $inventory = $this->getDoctrine()
-                 ->getRepository('AcmeInventoryBundle:Inventory')
-                 ->findAll();
 
-         return array('inventory'=>$inventory);
+        $em = $this->getDoctrine()->getManager();
+        $inventoryManager = new InventoryManager($em);
+        $inventory = $inventoryManager->getInventory();
+
+        return array('inventory'=>$inventory);
     }
 
     /**

@@ -1,0 +1,6 @@
+parameters:
+    acme.inventory.class: Acme\InventoryBundle\Inventory\InventoryManager
+
+services:
+    acme.inventory:
+        class: "%acme.inventory.class%"
