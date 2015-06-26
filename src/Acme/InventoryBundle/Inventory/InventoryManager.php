@@ -8,34 +8,54 @@
 
 namespace Acme\InventoryBundle\Inventory;
 
+use Acme\InventoryBundle\Entity\Inventory;
+use Doctrine\ORM\EntityManager;
+
 class InventoryManager
 {
     private $em;
-    private $inventory;
 
-    public function __construct($em, $inventory)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->inventory = $inventory;
     }
+
+    /**
+     * @return mixed
+     */
     public function getInventory()
     {
+
         $inventory = $this->em->getRepository('AcmeInventoryBundle:Inventory')
             ->findAll();
 
         return $inventory;
     }
 
+    /**
+     * @param $data
+     * @param $inventory
+     */
     public function addInventory($data)
     {
-        $this->inventory->setName($data["name"]);
-        $this->inventory->setBroker($data['broker']);
-        $this->inventory->setDescription($data['description']);
-        $this->inventory->setLocation($data['location']);
-        $this->inventory->setPrice($data['price']);
+        $inventory = new Inventory();
+        $inventory->setName($data["name"]);
+        $inventory->setBroker($data['broker']);
+        $inventory->setDescription($data['description']);
+        $inventory->setLocation($data['location']);
+        $inventory->setPrice($data['price']);
 
 
-        $this->em->persist($this->inventory);
+        $this->em->persist($inventory);
+        $this->em->flush();
+    }
+
+    /**
+     * @param $inventory
+     */
+    public function deleteInventory($inventory)
+    {
+        $this->em->remove($inventory);
         $this->em->flush();
     }
 }

@@ -4,3 +4,4 @@ parameters:
 services:
     acme.inventory:
         class: "%acme.inventory.class%"
+        arguments: [ @doctrine.orm.entity_manager ]

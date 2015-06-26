@@ -21,10 +21,7 @@ class InventoryController extends Controller
      */
     public function inventoryAction(){
 
-        $em = $this->getDoctrine()->getManager();
-        $inventory = new Inventory();
-        
-        $inventoryManager = new InventoryManager($em, $inventory);
+        $inventoryManager = $this->get('acme.inventory');
         $inventoryListing = $inventoryManager->getInventory();
 
         return array('inventory'=> $inventoryListing);
@@ -50,13 +47,27 @@ class InventoryController extends Controller
     public function formAction(Request $request)
     {
         $data = $request->request->all();
-        $em = $this->getDoctrine()->getManager();
-        $inventory = new Inventory();
 
-        $createInventory = new InventoryManager($em, $inventory);
+        $createInventory = $this->get("acme.inventory");
         $createInventory->addInventory($data);
 
         return new Response("I am an API and I created a new inventory for you");
+
+    }
+
+    /**
+     * @Route("/api/{inventory}/delete/",name="delete_query")
+     * @param Inventory $inventory
+     * @View()
+     * @return array
+     * @Method("DELETE")
+     */
+    public function deleteAction(Inventory $inventory)
+    {
+        $deleteInventory = $this->get("acme.inventory");
+        $deleteInventory->deleteInventory($inventory);
+
+        return new Response("I am an API and I deleted one inventory for you");
 
     }
 
